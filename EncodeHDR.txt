@@ -1,0 +1,21 @@
+#Encode HDR video from Samsung:
+
+*Test encode first frame pic
+ffmpeg.exe -hide_banner -i input.mp4 -vf scale=-1:360:flags=spline,zscale=transfer=linear:npl=100,format=gbrpf32le,zscale=primaries=bt709,tonemap=hable:desat=0,zscale=transfer=bt709:matrix=bt709:range=limited,format=yuv420p -vframes 1 output.png
+
+ffmpeg.exe -hide_banner -i input.mp4 -vf scale=-1:720:flags=spline,zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p -map 0 -c copy -c:v libx264 -pix_fmt yuv420p -preset medium -tune film -crf 20 -c:a copy output.mp4
+
+*tonemap=linear will render color similar as mpv render HDR
+
+*without sound
+ffmpeg.exe -hide_banner -i input.mp4 -vf scale=-1:720:flags=spline,zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p -map 0 -c copy -c:v libx264 -pix_fmt yuv420p -preset medium -tune film -crf 20 -an output.mp4
+
+*with cropping without keeping aspect ratio
+ffmpeg.exe -hide_banner -i input.mp4 -vf scale=-1:720:flags=spline,crop=(iw/2)+100:ih:iw-(iw-200):0,zscale=transfer=linear:npl=100,format=gbrpf32le,zscale=primaries=bt709,tonemap=hable:desat=0,zscale=transfer=bt709:matrix=bt709:range=limited,format=yuv420p -preset medium -tune film -crf 12 -c:a copy output.mp4
+
+
+Reference: https://github.com/jellyfin/jellyfin/issues/415
+           https://www.linuxuprising.com/2020/01/ffmpeg-how-to-crop-videos-with-examples.html
+
+# Downscale to 1080p and rotate image by 90 degrees clockwise
+ffmpeg -i image.jpg -qscale:v 2 -vf scale=-1:1080:flags=spline,transpose=1 out.jpeg
