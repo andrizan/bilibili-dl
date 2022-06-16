@@ -1,3 +1,8 @@
+param(
+	[Parameter(Mandatory = $False)]
+	[string[]] $eps_id = @()
+)
+
 get-content .env | ForEach-Object {
 	$name, $value = $_.split('=')
 	set-content env:\$name $value
