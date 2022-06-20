@@ -61,7 +61,8 @@ Foreach ($eps_code in $eps_id) {
 	$url = "https://www.bilibili.tv/id/play/1022690/" + $eps_code
 
 	$eps = $(yt-dlp.exe --skip-download --get-title --no-warnings -u $env:BILIBILI_USERNAME -p $env:BILIBILI_PASSWORD $url)
-	$fix_eps = $eps -replace "[^0-9]" , ''
+	$fix_eps = $eps.split('-')
+	$fix_eps = $fix_eps[0] -replace "[^0-9]" , ''
 
 	$name = "Detective Conan - $($fix_eps)"
 
