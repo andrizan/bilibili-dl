@@ -95,6 +95,8 @@ Foreach ($eps_code in $eps_id) {
 
 		Do { yt-dlp.exe -u $env:BILIBILI_USERNAME -p $env:BILIBILI_PASSWORD -f "ba/b[height<=$($env:BILIBILI_RESOLUTION)]" --add-metadata --postprocessor-args "ffmpeg:-c:a libopus -b:a 64k" -o $audio --downloader aria2c --external-downloader-args "aria2c:-c -j 16 -s 16 -x 16 -k 2M" $url } until ($?)
 
+		# Do { yt-dlp.exe -u $env:BILIBILI_USERNAME -p $env:BILIBILI_PASSWORD -f "ba/b[height<=$($env:BILIBILI_RESOLUTION)]" --add-metadata --postprocessor-args "ffmpeg:-c:a libopus -b:a 64k -af 'pan=stereo|FL=0.5FC+0.707FL+0.707BL+0.5LFE|FR=0.5FC+0.707FR+0.707BR+0.5LFE'" -o $audio --downloader aria2c --external-downloader-args "aria2c:-c -j 16 -s 16 -x 16 -k 2M" $url } until ($?)
+
 		Write-Log "INFO" "Download file '$audio' finish"
 	}
 
