@@ -70,7 +70,7 @@ Foreach ($eps_code in $eps_id) {
 	$audio = "./tmp/$($name).opus"
 	$subs = "./tmp/$($name).id.srt"
 
-	$result = "../$($name).mkv"
+	$result = "$($env:OUTPUT_DIR)$($name).mkv"
 	if (Test-Path $result) {
 		Write-Log "ERROR" "File '$result' exists"
 		continue
@@ -111,7 +111,7 @@ Foreach ($eps_code in $eps_id) {
 	}
 
 	if ((Test-Path $video) -and (Test-Path $audio) -and (Test-Path $subs)) {
-		ffmpeg -i $video -i $audio -i $subs -c:v copy -c:a copy -c:s srt -disposition:s:0 default "../$($name).mkv"
+		ffmpeg -i $video -i $audio -i $subs -c:v copy -c:a copy -c:s srt -disposition:s:0 default "$($env:OUTPUT_DIR)$($name).mkv"
 
 		Remove-Item $video
 		Remove-Item $audio
