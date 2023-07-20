@@ -60,7 +60,7 @@ if (!$eps_id) {
 Foreach ($eps_code in $eps_id) {
 	$url = "https://www.bilibili.tv/id/play/1022690/" + $eps_code
 
-	$eps = $(yt-dlp.exe --skip-download --get-title --no-warnings --cookies-from-browser chrome $url)
+	$eps = $(yt-dlp.exe --skip-download --get-title --no-warnings --cookies-from-browser $($env:BROWSER) $url)
 	$fix_eps = $eps.split(' ')
 	$fix_eps = $fix_eps[0] -replace "[^0-9]" , ''
 
@@ -82,7 +82,7 @@ Foreach ($eps_code in $eps_id) {
 	else {
 		Write-Log "INFO" "Download video starts"
 
-		Do { yt-dlp.exe --cookies-from-browser chrome -f "bv[height<=$($env:BILIBILI_RESOLUTION)]" --remux-video mkv --add-metadata -o "./tmp/$($name).%(ext)s" --downloader aria2c --external-downloader-args "aria2c:-c -j 16 -s 16 -x 16 -k 2M" $url } until ($?)
+		Do { yt-dlp.exe --cookies-from-browser $($env:BROWSER) -f "bv[height<=$($env:BILIBILI_RESOLUTION)]" --remux-video mkv --add-metadata -o "./tmp/$($name).%(ext)s" --downloader aria2c --external-downloader-args "aria2c:-c -j 16 -s 16 -x 16 -k 2M" $url } until ($?)
 
 		Write-Log "INFO" "Download file '$video' finish"
 	}
@@ -93,9 +93,9 @@ Foreach ($eps_code in $eps_id) {
 	else {
 		Write-Log "INFO" "Download audio starts"
 
-		Do { yt-dlp.exe --cookies-from-browser chrome -f "ba/b[height<=$($env:BILIBILI_RESOLUTION)]" --add-metadata --postprocessor-args "ffmpeg:-c:a libopus -b:a 64k" -o $audio --downloader aria2c --external-downloader-args "aria2c:-c -j 16 -s 16 -x 16 -k 2M" $url } until ($?)
+		Do { yt-dlp.exe --cookies-from-browser $($env:BROWSER) -f "ba/b[height<=$($env:BILIBILI_RESOLUTION)]" --add-metadata --postprocessor-args "ffmpeg:-c:a libopus -b:a 64k" -o $audio --downloader aria2c --external-downloader-args "aria2c:-c -j 16 -s 16 -x 16 -k 2M" $url } until ($?)
 
-		# Do { yt-dlp.exe --cookies-from-browser chrome -f "ba/b[height<=$($env:BILIBILI_RESOLUTION)]" --add-metadata --postprocessor-args "ffmpeg:-c:a libopus -b:a 64k -af 'pan=stereo|FL=0.5FC+0.707FL+0.707BL+0.5LFE|FR=0.5FC+0.707FR+0.707BR+0.5LFE'" -o $audio --downloader aria2c --external-downloader-args "aria2c:-c -j 16 -s 16 -x 16 -k 2M" $url } until ($?)
+		# Do { yt-dlp.exe --cookies-from-browser $($env:BROWSER) -f "ba/b[height<=$($env:BILIBILI_RESOLUTION)]" --add-metadata --postprocessor-args "ffmpeg:-c:a libopus -b:a 64k -af 'pan=stereo|FL=0.5FC+0.707FL+0.707BL+0.5LFE|FR=0.5FC+0.707FR+0.707BR+0.5LFE'" -o $audio --downloader aria2c --external-downloader-args "aria2c:-c -j 16 -s 16 -x 16 -k 2M" $url } until ($?)
 
 		Write-Log "INFO" "Download file '$audio' finish"
 	}
@@ -106,7 +106,7 @@ Foreach ($eps_code in $eps_id) {
 	else {
 		Write-Log "INFO" "Download subtitle starts"
 
-		yt-dlp.exe --cookies-from-browser chrome --write-subs --sub-langs $env:BILIBILI_SUBTITLE_LANG -o "./tmp/$($name)" --add-metadata --skip-download $url
+		yt-dlp.exe --cookies-from-browser $($env:BROWSER) --write-subs --sub-langs $env:BILIBILI_SUBTITLE_LANG -o "./tmp/$($name)" --add-metadata --skip-download $url
 		Write-Log "INFO" "Download file '$subs' finish"
 	}
 

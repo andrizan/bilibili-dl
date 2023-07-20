@@ -20,9 +20,10 @@ Download tools for [bilibili.tv](https://www.bilibili.tv)
 * format subtitles | srt | .env=en
 ```
 
-### File Custom
+### File Playlist
 Download script anime Detective Conan (Case Closed).
 #### Usage
+- login account from browser (chrome/firefox)
 - exp url : `https://www.bilibili.tv/id/play/1022690/10655935?bstar_from=bstar-web.pgc-video-detail.episode.0`
 - 10655935 = eps_id
 ```
