@@ -27,5 +27,5 @@ Download script anime Detective Conan (Case Closed).
 - exp url : `https://www.bilibili.tv/id/play/1022690/10655935?bstar_from=bstar-web.pgc-video-detail.episode.0`
 - 10655935 = eps_id
 ```
-.\custom.ps1 -eps_id 11004093,11004145,11004208
+.\playlist.ps1 -eps_id 11004093,11004145,11004208
 ```
